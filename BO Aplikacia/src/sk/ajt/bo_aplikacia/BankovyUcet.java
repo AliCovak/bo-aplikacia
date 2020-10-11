@@ -1,5 +1,21 @@
 package sk.ajt.bo_aplikacia;
 
+/**
+ * <h1>Trieda BankovyUcet</h1>
+ * <p>
+ *    Popis
+ * </p>
+ * <h2>obsahuje:</h2>  
+ *    <ul>
+ *       <li></li>
+ *       <li></li>
+ *    </ul>
+ * <h2>zodpoveda za:</h2>
+ * <ul>
+ *       <li></li>
+ *       <li></li>
+ * </ul>
+ */
 public class BankovyUcet {
 	private double aktualnyZostatok;
 	
