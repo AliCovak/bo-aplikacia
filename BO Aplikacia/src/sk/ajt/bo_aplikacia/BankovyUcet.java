@@ -16,13 +16,18 @@ package sk.ajt.bo_aplikacia;
  *       <li></li>
  * </ul>
  */
-public class BankovyUcet {
+public class BankovyUcet 
+{
 	private double aktualnyZostatok;
 	
 	public BankovyUcet () {
 		aktualnyZostatok = 0;
 	}
-//
+
+	
+	
+	
+	//
 	public BankovyUcet(double pociatocnyZostatok) {
 		//TODO: pridelit kazdemu novemu uctu jedinecne ID:
 		

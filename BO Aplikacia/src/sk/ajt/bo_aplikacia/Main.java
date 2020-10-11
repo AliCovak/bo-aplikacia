@@ -24,6 +24,9 @@ public class Main
 	private static final String TEXT_NAZOV_BANKY = "ZUNO Bank AG";
 	private static final String TEXT_VSTUP_OD_POUZIVATELA = "Vasa volba: ";
 	private static final String TEXT_NEEXISTUJUCA_VOLBA = "\nNEEXISTUJUCA VOLBA!\n\n";
+	private static final String TEXT_KRSTNE_MENO_KLIENTA = "Krstne meno: ";
+	private static final String TEXT_PRIEZVISKO_KLIENTA = "Priezvisko: ";
+	private static final String TEXT_RODNE_CISLO_KLIENTA = "Rodne cislo: ";
 	private static final String TEXT_OBRAZOVKA_DOMOV = ""
 			+ "+------------------------------------------------------------------+\n"
 			+ "|                       Vitajte v BO Aplikacii                     |\n"
@@ -38,12 +41,12 @@ public class Main
 			+ "4) Vypis info o ucte                                                \n"
 			+ "0) Koniec                                                           \n"
 			+ "\n";
-	private static final String TEXT_HLAVICKA_ZALOZENIE_NOVEHO_UCTU = ""
+	private static final String TEXT_HLAVICKA_ZALOZENIE_NOVEHO_UCTU = "\n"
 			+ "====================================================================\n"
 			+ "Menu - Zalozenie noveho uctu                                        \n"
 			+ "====================================================================\n"
 			+ "\n";
-	private static final String TEXT_HLAVICKA_VOLBA_UCTU = ""
+	private static final String TEXT_HLAVICKA_VOLBA_UCTU = "\n"
 			+ "====================================================================\n"
 			+ "Menu - Volba uctu                                                   \n"
 			+ "====================================================================\n"
@@ -58,6 +61,10 @@ public class Main
 		byte stav;
 		Scanner vstup;
 		byte volba;
+		String menoKlienta;
+		String priezviskoKlienta;
+		String rodneCisloKlienta;
+		Klient klient;
 		
 		/* cyklus zabezpecujuci chod menu */
 		while(true) 
@@ -85,6 +92,16 @@ public class Main
 					else if (volba == 1) 
 					{
 						System.out.print(TEXT_HLAVICKA_ZALOZENIE_NOVEHO_UCTU);
+						System.out.print(TEXT_KRSTNE_MENO_KLIENTA);
+						menoKlienta = vstup.next();
+						
+						System.out.print(TEXT_PRIEZVISKO_KLIENTA);
+						priezviskoKlienta = vstup.next();
+						
+						System.out.print(TEXT_RODNE_CISLO_KLIENTA);
+						rodneCisloKlienta = vstup.next();
+						
+						klient = new Klient(menoKlienta, priezviskoKlienta, rodneCisloKlienta);
 					}
 					else if (volba == 2) 
 					{
@@ -103,8 +120,7 @@ public class Main
 						System.out.print(TEXT_NEEXISTUJUCA_VOLBA);
 					}
 				}
-				else 
-				{
+				else {
 					System.out.print(TEXT_NEEXISTUJUCA_VOLBA);
 				}
 			}

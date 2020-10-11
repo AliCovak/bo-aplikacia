@@ -16,15 +16,25 @@ package sk.ajt.bo_aplikacia;
  *       <li></li>
  * </ul>
  */
-public class Klient {
-	
+public class Klient 
+{
+	/* premenne  */
 	private String meno;
 	private String priezvisko;
-	private int rodneCislo;
+	private String rodneCislo;
+	
 	private BankovyUcet beznyUcet;
 	private BankovyUcet sporiaciUcet;
 	
-	public Klient(String meno, String priezvisko, int rodneCislo) {
+	/**
+	 * Vytvara noveho klienta.
+	 * 
+	 * @param meno meno klienta
+	 * @param priezvisko priezvisko klienta
+	 * @param rodneCislo rodne cislo klienta
+	 */
+	public Klient(String meno, String priezvisko, String rodneCislo) 
+	{
 		this.meno = meno;
 		this.priezvisko = priezvisko;
 		this.rodneCislo = rodneCislo;
@@ -34,6 +44,10 @@ public class Klient {
 	}
 	
 
+	
+	
+	
+	
 	public BankovyUcet getBeznyUcet() {
 		return beznyUcet;
 	}
@@ -73,14 +87,14 @@ public class Klient {
 	/**
 	 * @return the rodneCislo
 	 */
-	public int getRodneCislo() {
+	public String getRodneCislo() {
 		return rodneCislo;
 	}
 
 	/**
 	 * @param rodneCislo the rodneCislo to set
 	 */
-	public void setRodneCislo(int rodneCislo) {
+	public void setRodneCislo(String rodneCislo) {
 		this.rodneCislo = rodneCislo;
 	}
 	
