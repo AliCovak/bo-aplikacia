@@ -23,9 +23,9 @@ public class Main
 	/* konstanty */
 	private static final String TEXT_NAZOV_BANKY = "ZUNO Bank AG";
 	private static final String TEXT_VSTUP_OD_POUZIVATELA = "Vasa volba: ";
-	private static final String TEXT_NEEXISTUJUCA_VOLBA = "NEEXISTUJUCA VOLBA!\n";
-	private static final String TEXT_OBRAZOVKA_DOMOV =
-			  "+------------------------------------------------------------------+\n"
+	private static final String TEXT_NEEXISTUJUCA_VOLBA = "\nNEEXISTUJUCA VOLBA!\n\n";
+	private static final String TEXT_OBRAZOVKA_DOMOV = ""
+			+ "+------------------------------------------------------------------+\n"
 			+ "|                       Vitajte v BO Aplikacii                     |\n"
 			+ "|                                                                  |\n"
 			+ "|                            ZUNO Bank AG                          |\n"
@@ -36,7 +36,19 @@ public class Main
 			+ "2) Vytvor vklad                                                     \n"
 			+ "3) Vytvor vyber                                                     \n"
 			+ "4) Vypis info o ucte                                                \n"
-			+ "0) Koniec                                                           \n";
+			+ "0) Koniec                                                           \n"
+			+ "\n";
+	private static final String TEXT_HLAVICKA_ZALOZENIE_NOVEHO_UCTU = ""
+			+ "====================================================================\n"
+			+ "Menu - Zalozenie noveho uctu                                        \n"
+			+ "====================================================================\n"
+			+ "\n";
+	private static final String TEXT_HLAVICKA_VOLBA_UCTU = ""
+			+ "====================================================================\n"
+			+ "Menu - Volba uctu                                                   \n"
+			+ "====================================================================\n"
+			+ "\n";
+	private static final String TEXT_KONIEC_PROGRAMU = "\nDakujeme vam, ze pouzivate ZUNO Bank AG\n";
 
 	public static void main(String[] args) 
 	{
@@ -65,26 +77,39 @@ public class Main
 					volba = vstup.nextByte();
 					
 					/* kontroluje, ci zadana volba na vstupe sa zhoduje s moznostami v menu */
-					if (volba == 1) 
+					if (volba == 0) 
 					{
-						// TODO: pokracovat/doprogramovat
-						System.out.println("ok");
+						System.out.print(TEXT_KONIEC_PROGRAMU);
 						break;
+					}
+					else if (volba == 1) 
+					{
+						System.out.print(TEXT_HLAVICKA_ZALOZENIE_NOVEHO_UCTU);
+					}
+					else if (volba == 2) 
+					{
+						System.out.print(TEXT_HLAVICKA_VOLBA_UCTU);
+					}
+					else if (volba == 3) 
+					{
+						System.out.print(TEXT_HLAVICKA_VOLBA_UCTU);
+					}
+					else if (volba == 4) 
+					{
+						System.out.print(TEXT_HLAVICKA_VOLBA_UCTU);
 					}
 					else 
 					{
-						System.out.println(TEXT_NEEXISTUJUCA_VOLBA);
+						System.out.print(TEXT_NEEXISTUJUCA_VOLBA);
 					}
 				}
 				else 
 				{
-					System.out.println(TEXT_NEEXISTUJUCA_VOLBA);
+					System.out.print(TEXT_NEEXISTUJUCA_VOLBA);
 				}
 			}
 		}
-		
 		vstup.close();
-		System.out.println("Koniec programu");
 	}
 
 }
