@@ -23,8 +23,8 @@ public class Klient
 	private String priezvisko;
 	private String rodneCislo;
 	
-	private BankovyUcet beznyUcet;
-	private BankovyUcet sporiaciUcet;
+	private BankovyUcet ucet;
+//	private BankovyUcet sporiaciUcet;
 	
 	/**
 	 * Vytvara noveho klienta.
@@ -33,29 +33,27 @@ public class Klient
 	 * @param priezvisko priezvisko klienta
 	 * @param rodneCislo rodne cislo klienta
 	 */
-	public Klient(String meno, String priezvisko, String rodneCislo) 
+	public Klient(String meno, String priezvisko, String rodneCislo, BankovyUcet ucet) 
 	{
 		this.meno = meno;
 		this.priezvisko = priezvisko;
 		this.rodneCislo = rodneCislo;
-		
-		beznyUcet = new BankovyUcet();
-		sporiaciUcet = new BankovyUcet();
+		this.ucet = ucet;
 	}
 	
-
-	
-	
-	
-	
-	public BankovyUcet getBeznyUcet() {
-		return beznyUcet;
+	/**
+	 * 
+	 * @return
+	 */
+	public BankovyUcet getUcet() 
+	{
+		return ucet;
 	}
 
-	public BankovyUcet getSporiaciUcet() {
-		return sporiaciUcet;
-	}
-
+	
+	
+	
+	
 	/**
 	 * @return the meno
 	 */

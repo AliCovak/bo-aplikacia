@@ -26,7 +26,7 @@ public class Banka
 {
 	/* premenne */
 	private String nazovBanky;
-	private ArrayList<Klient> zoznamKlientov;
+	private ArrayList<Klient> zoznamKlientov = new ArrayList<Klient>();
 	
 	/**
 	 * Vytvara objekt Banka.
@@ -38,17 +38,21 @@ public class Banka
 		this.nazovBanky = nazovBanky;
 	}
 	
-	
-	
-	
-	
-	
-	
-	
-	private void pridajKlienta(Klient klient) {
+	/**
+	 * 
+	 * @param klient
+	 */
+	public void pridajKlienta(Klient klient) 
+	{
 		zoznamKlientov.add(klient);
 	}
 	
+	public ArrayList<Klient> getZoznamKlientov() {
+		return zoznamKlientov;
+	}
+	
+	
+
 	public void zobrazInformacieOUcte () {
 		//TODO: je potrebne vypisat tieto informacie: cislo bankoveho uctu, aktualny zostatok 
 		//a v pripade sporiaceho uctu aj aktualnu vysku urokovej sadzby
