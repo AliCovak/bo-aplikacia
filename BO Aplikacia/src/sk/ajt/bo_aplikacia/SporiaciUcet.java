@@ -18,9 +18,8 @@ package sk.ajt.bo_aplikacia;
  */
 public class SporiaciUcet extends BankovyUcet {
 	
-	private int pociatocneIdSporiacehoUctu = 200_456_000;
+	private static int pociatocneIdSporiacehoUctu = 500_456_000;
 	private int idSporiaciUcet;
-	private double urokovaSadzba;
 	
 	/**
 	 * 
@@ -32,18 +31,5 @@ public class SporiaciUcet extends BankovyUcet {
 		idSporiaciUcet = ++pociatocneIdSporiacehoUctu;
 		super.setIdUctu(idSporiaciUcet);
 	}
-	
-	public void pripisUrok()
-	{
-		double urok = (getAktualnyZostatok() * urokovaSadzba) / 100;
-		//vloz(urok);
-		super.vloz(urok);
-	}
-	
-//	public SporiaciUcet(double urokovaSadzba)
-//	{
-//		super();	
-//		this.urokovaSadzba = urokovaSadzba;
-//	}
 	
 }

@@ -3,9 +3,9 @@ package sk.ajt.bo_aplikacia;
 import java.util.Scanner;
 
 /**
- * <h1>Trieda Main</h1>
+ * <h1>Trieda Menu</h1>
  * <p>
- *    Hlavna trieda aplikacie.
+ *    Popis
  * </p>
  * <h2>obsahuje:</h2>  
  *    <ul>
@@ -51,10 +51,13 @@ public class Menu
 	private final String TEXT_BEZNY_UCET = "bezny";
 	private final String TEXT_SPORIACI_UCET = "sporiaci";
 	private final String TEXT_POCIATOCNY_VKLAD = "Pociatocny vklad:";
-	private final String TEXT_VKLAD_NA_UCET_OK = "Vklad na ucet bol uspesne zrealizovany. Aktualny zostatok na ucte:";
+	private final String TEXT_VKLAD_NA_UCET_OK_PLUS_BONUS = "Vklad na ucet bol uspesne zrealizovany. \n"
+												+ "Aktualny zostatok na ucte, vratane bonusu";
 	private final String TEXT_VOLBA_2 = "Prosim vyber ucet:";
 	private final String TEXT_NEDOSTATOCNY_POCIATOCNY_VKLAD = "Nedostatocny pociatocny vklad. "
 																	+ "Pociatocny vklad musi byt minimalne";
+	private final String TEXT_AKU_CIASTKU_SI_ZELATE_VLOZIT = "Aku ciastku si zelate vlozit?";
+	private final String TEXT_AKU_CIASTKU_SI_ZELATE_VYBRAT = "Aku ciastku si zelate vybrat?";
 	
 	private final String CHYBA_NEEXISTUJUCA_VOLBA = "NEEXISTUJUCA VOLBA!";
 
@@ -84,7 +87,8 @@ public class Menu
 				Klient klient = novyKlient();
 				banka.pridajKlienta(klient);
 				
-				obalAVypis(TEXT_VKLAD_NA_UCET_OK + "\n" + klient.getUcet().getAktualnyZostatok());
+				obalAVypis(TEXT_VKLAD_NA_UCET_OK_PLUS_BONUS + " " + klient.getUcet().getBonus() 
+						+ "%: " + klient.getUcet().getAktualnyZostatok() + " Eur");
 			}
 			else if (vstup.equals("2")) 
 			{
@@ -93,18 +97,58 @@ public class Menu
 				if (pocetUctov == 0) {
 					obalAVypis(TEXT_ZIADNE_UCTY);
 				}
+				else
+				{
+					System.out.print(banka.zobrazZoznamUctov());
+					System.out.print(TEXT_VOLBA_2 + " ");
+					
+					vstup = scanner.next();
+					int poradoveCislo = Integer.parseInt(vstup) - 1;
+					
+					System.out.print(TEXT_AKU_CIASTKU_SI_ZELATE_VLOZIT + " ");
+					double ciastka = scanner.nextDouble();
+					
+					obalAVypis(banka.getZoznamKlientov().get(poradoveCislo).getUcet().vloz(ciastka));
+				}
+			}
+			else if (vstup.equals("3")) 
+			{
+				obalAVypis(TEXT_MENU_VOLBA_UCTU);
+				
+				if (pocetUctov == 0) {
+					obalAVypis(TEXT_ZIADNE_UCTY);
+				}
+				else
+				{
+					System.out.print(banka.zobrazZoznamUctov());
+					System.out.print(TEXT_VOLBA_2 + " ");
+					
+					vstup = scanner.next();
+					int poradoveCislo = Integer.parseInt(vstup) - 1;
+					
+					System.out.print(TEXT_AKU_CIASTKU_SI_ZELATE_VYBRAT + " ");
+					double ciastka = scanner.nextDouble();
+					
+					obalAVypis(banka.getZoznamKlientov().get(poradoveCislo).getUcet().vyber(ciastka));
+				}
 			}
 			else if (vstup.equals("4")) 
 			{
 				obalAVypis(TEXT_MENU_VOLBA_UCTU);
-				System.out.print(banka.zobrazZoznamUctov());
 				
-				System.out.print(TEXT_VOLBA_2 + " ");
-				vstup = scanner.next();
-				int poradoveCislo = Integer.parseInt(vstup) - 1;
-				
-				obalAVypis(banka.zobrazInformacieOUcte(poradoveCislo));
-				
+				if (pocetUctov == 0) {
+					obalAVypis(TEXT_ZIADNE_UCTY);
+				}
+				else
+				{
+					System.out.print(banka.zobrazZoznamUctov());
+					
+					System.out.print(TEXT_VOLBA_2 + " ");
+					vstup = scanner.next();
+					int poradoveCislo = Integer.parseInt(vstup) - 1;
+					
+					obalAVypis(banka.zobrazInformacieOUcte(poradoveCislo));
+				}
 			}
 			else if (!vstup.equals("0"))
 			{

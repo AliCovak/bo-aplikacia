@@ -2,10 +2,6 @@ package sk.ajt.bo_aplikacia;
 
 import java.util.ArrayList;
 
-// Julka:
-// ak by sme implementovali ulohu c. 5, 
-// tak sem by mohlo prist ukladanie a vyberanie klientov z databazy
-
 /**
  * <h1>Trieda Banka</h1>
  * <p>
@@ -72,7 +68,8 @@ public class Banka
 		else
 		{
 			typUctu = TEXT_SPORIACI_UCET;
-			urok = "\n" + TEXT_UROKOVA_SADZBA + " " + "x" + "%";
+			/* urok pravdepodobne nebudeme pocitat, nakolko sa v poziadavkach, nenachadza iba bonus pri zalozeni uctu */
+//			urok = "\n" + TEXT_UROKOVA_SADZBA + " " + "x" + "%";
 			
 		}
 		
@@ -80,8 +77,8 @@ public class Banka
 			 + TEXT_RODNE_CISLO + klient.getRodneCislo() + " "
 			 + TEXT_CISLO_UCTU + " " + klient.getUcet().getIdUctu() + "\n"
 			 + typUctu + " " + klient.getUcet().getIdUctu() + "\n"
-			 + TEXT_AKTUALNY_ZOSTATOK + " " + klient.getUcet().getAktualnyZostatok()
-			 + urok;
+			 + TEXT_AKTUALNY_ZOSTATOK + " " + klient.getUcet().getAktualnyZostatok();
+//			 + urok;
 	}
 	
 	/**
