@@ -1,8 +1,5 @@
 package sk.ajt.bo_aplikacia;
 
-import java.util.ArrayList;
-import java.util.Scanner;
-
 /**
  * <h1>Trieda BeznyUcet</h1>
  * <p>

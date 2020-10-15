@@ -33,17 +33,17 @@ public class SporiaciUcet extends BankovyUcet {
 		super.setIdUctu(idSporiaciUcet);
 	}
 	
+	public void pripisUrok()
+	{
+		double urok = (getAktualnyZostatok() * urokovaSadzba) / 100;
+		//vloz(urok);
+		super.vloz(urok);
+	}
+	
 //	public SporiaciUcet(double urokovaSadzba)
 //	{
 //		super();	
 //		this.urokovaSadzba = urokovaSadzba;
 //	}
 	
-//	public void pripisUrok()
-//	{
-//		double urok = (getAktualnyZostatok() * urokovaSadzba) / 100;
-//		//vloz(urok);
-//		super.vloz(urok);
-//	}
-
 }
