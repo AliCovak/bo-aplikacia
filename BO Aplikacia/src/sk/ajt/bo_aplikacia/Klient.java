@@ -22,9 +22,7 @@ public class Klient
 	private String meno;
 	private String priezvisko;
 	private String rodneCislo;
-	
 	private BankovyUcet ucet;
-//	private BankovyUcet sporiaciUcet;
 	
 	/**
 	 * Vytvara noveho klienta.
@@ -45,55 +43,33 @@ public class Klient
 	 * 
 	 * @return
 	 */
-	public BankovyUcet getUcet() 
-	{
-		return ucet;
-	}
-
-	
-	
-	
-	
-	/**
-	 * @return the meno
-	 */
 	public String getMeno() {
 		return meno;
 	}
-
+	
 	/**
-	 * @param meno the meno to set
-	 */
-	public void setMeno(String meno) {
-		this.meno = meno;
-	}
-
-	/**
-	 * @return the priezvisko
+	 * 
+	 * @return
 	 */
 	public String getPriezvisko() {
 		return priezvisko;
 	}
 
 	/**
-	 * @param priezvisko the priezvisko to set
-	 */
-	public void setPriezvisko(String priezvisko) {
-		this.priezvisko = priezvisko;
-	}
-
-	/**
-	 * @return the rodneCislo
+	 * 
+	 * @return
 	 */
 	public String getRodneCislo() {
 		return rodneCislo;
 	}
-
+	
 	/**
-	 * @param rodneCislo the rodneCislo to set
+	 * 
+	 * @return
 	 */
-	public void setRodneCislo(String rodneCislo) {
-		this.rodneCislo = rodneCislo;
+	public BankovyUcet getUcet() 
+	{
+		return ucet;
 	}
 	
 }

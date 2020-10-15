@@ -18,20 +18,46 @@ package sk.ajt.bo_aplikacia;
  */
 public class BankovyUcet 
 {
-	
-	public static final byte BEZNY = 1;
-	public static final byte SPORIACI = 2;
-	
-//	private String idUctu;
+	private long idUctu;
 	private double aktualnyZostatok;
 	
-	public BankovyUcet() {
-	}
-
+	/**
+	 * 
+	 * @param pociatocnyZostatok
+	 */
 	public BankovyUcet(double pociatocnyZostatok)
 	{
 		aktualnyZostatok = pociatocnyZostatok;
 	}
+	
+	/**
+	 * 
+	 * @param idUctu
+	 */
+	protected void setIdUctu(int idUctu)
+	{
+		this.idUctu = idUctu;
+	}
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public long getIdUctu() 
+	{
+		return idUctu;
+	}
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public double getAktualnyZostatok () 
+	{
+		return aktualnyZostatok;
+	}
+	
+	
 	
 //	public BankovyUcet(String idUctu, double pociatocnyZostatok) 
 //	{
@@ -53,12 +79,10 @@ public class BankovyUcet
 //		}
 		
 //	}
-		
-	
+
 	public void vloz(double ciastka) 
 	{
-		aktualnyZostatok = aktualnyZostatok + ciastka;
-		//TODO: po kazdej transakcii zobrazitinformaciu o vysledku operacie
+		aktualnyZostatok += ciastka;
 	}
 	
 	public void vyber(double ciastka) 
@@ -66,11 +90,6 @@ public class BankovyUcet
 		aktualnyZostatok = aktualnyZostatok - ciastka;
 		//TODO: po kazdej transakcii zobrazit informaciu o vysledku operacie
 		//TODO: NEPOVOLIT transakciu so ZAPORNOU SUMOU
-	}
-	
-	public double getAktualnyZostatok () 
-	{
-		return aktualnyZostatok;
 	}
 	
 }

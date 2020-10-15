@@ -20,9 +20,13 @@ public class SporiaciUcet extends BankovyUcet {
 	
 //private double urokovaSadzba;
 	
-	public SporiaciUcet() 
+	/**
+	 * 
+	 * @param pociatocnyZostatok
+	 */
+	public SporiaciUcet(double pociatocnyZostatok) 
 	{
-		super();
+		super(pociatocnyZostatok);
 	}
 	
 //	public SporiaciUcet(double urokovaSadzba)

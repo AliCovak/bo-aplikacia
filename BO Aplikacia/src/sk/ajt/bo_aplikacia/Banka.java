@@ -24,7 +24,12 @@ import java.util.ArrayList;
  */
 public class Banka 
 {
-	/* premenne */
+	private static final String TEXT_CELE_MENO = "Meno:";
+	private static final String TEXT_RODNE_CISLO = "Rodne cislo:";
+	private static final String TEXT_CISLO_UCTU = "Cislo uctu #:";
+	private static final String TEXT_BEZNY_UCET = "Bezny Ucet:";
+	private static final String TEXT_AKTUALNY_ZOSTATOK = "Aktualny zostatok:";
+	
 	private String nazovBanky;
 	private ArrayList<Klient> zoznamKlientov = new ArrayList<Klient>();
 	
@@ -47,22 +52,47 @@ public class Banka
 		zoznamKlientov.add(klient);
 	}
 	
+	/**
+	 * 
+	 * @param poradoveCislo
+	 * @return
+	 */
+	public String zobrazInformacieOUcte(int poradoveCislo)
+	{
+		Klient klient = zoznamKlientov.get(poradoveCislo);
+		
+		return TEXT_CELE_MENO + " " + klient.getMeno() + " " + klient.getPriezvisko() + " "
+			 + TEXT_RODNE_CISLO + klient.getRodneCislo() + " "
+			 + TEXT_CISLO_UCTU + " " + klient.getUcet().getIdUctu() + "\n"
+			 + TEXT_BEZNY_UCET + " " + klient.getUcet().getIdUctu() + "\n"
+			 + TEXT_AKTUALNY_ZOSTATOK + " " + klient.getUcet().getAktualnyZostatok();
+	}
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public String zobrazZoznamUctov() 
+	{
+		String zoznam = "";
+		
+		for (int i = 0; i < zoznamKlientov.size(); i++) 
+		{
+			Klient klient = zoznamKlientov.get(i);
+			
+			zoznam += (i + 1) + ") " + TEXT_CELE_MENO + " " + klient.getMeno() + " " + klient.getPriezvisko() + " "
+			+ TEXT_RODNE_CISLO + " " + klient.getRodneCislo() + " "
+			+ TEXT_CISLO_UCTU + " " + klient.getUcet().getIdUctu() + "\n";
+		}
+		return zoznam;
+	}
+	
+	/**
+	 * 
+	 * @return
+	 */
 	public ArrayList<Klient> getZoznamKlientov() {
 		return zoznamKlientov;
-	}
-	
-	
-
-	public void zobrazInformacieOUcte () {
-		//TODO: je potrebne vypisat tieto informacie: cislo bankoveho uctu, aktualny zostatok 
-		//a v pripade sporiaceho uctu aj aktualnu vysku urokovej sadzby
-		
-	}
-	
-	public void vypisHistoriuZostatkovNaUcte() {
-		//TODO:
-		
-		
-	}
+	} 
 
 }

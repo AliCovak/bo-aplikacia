@@ -1,5 +1,6 @@
 package sk.ajt.bo_aplikacia;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 
 /**
@@ -21,155 +22,160 @@ import java.util.Scanner;
 public class Main 
 {
 	/* konstanty */
-	private static final double MIN_CIASTKA_PRE_VYTVORENIE_BEZNEHO_UCTU = 100.00;
+	private static final double MIN_CIASTKA_BEZNY_UCET = 100.00;
+	
+	private static final String TEXT_NEDOSTATOCNY_POCIATOCNY_VKLAD_BEZNY_UCET = ""
+			+ "Nedostatocny pociatocny vklad. Pociatocny vklad musi byt minimalne 100 Eur.";
+	
+	
+	
+/*PREROBENE=============================================================================================================
+ * ===================================================================================================================*/	
+	
+	
 	
 	private static final String TEXT_NAZOV_BANKY = "ZUNO Bank AG";
-	private static final String TEXT_VSTUP_OD_POUZIVATELA = "Vasa volba: ";
-	private static final String TEXT_NEEXISTUJUCA_VOLBA = "\nNEEXISTUJUCA VOLBA!\n\n";
-	private static final String TEXT_KRSTNE_MENO_KLIENTA = "Krstne meno: ";
-	private static final String TEXT_PRIEZVISKO_KLIENTA = "Priezvisko: ";
-	private static final String TEXT_RODNE_CISLO_KLIENTA = "Rodne cislo: ";
-	private static final String TEXT_AKY_UCET = "O aky ucet mate zaujem (bezny alebo sporiaci)?";
-	private static final String TEXT_VSTUP_SPORIACI_UCET = "sporiaci";
-	private static final String TEXT_VSTUP_BEZNY_UCET = "bezny";
-	private static final String TEXT_POCIATOCNY_VKLAD = "Pociatocny vklad: ";
-	private static final String TEXT_NEDOSTATOCNY_POCIATOCNY_VKLAD_BEZNY_UCET = "Nedostatocny pociatocny vklad. Pociatocny vklad musi byt minimalne 100 Eur.";
-	private static final String TEXT_OBRAZOVKA_DOMOV = ""
+	private static final String TEXT_UKONCENIE = "Dakujeme vam, ze pouzivate";
+	private static final String TEXT_SPUSTENIE = ""
 			+ "+------------------------------------------------------------------+\n"
 			+ "|                       Vitajte v BO Aplikacii                     |\n"
 			+ "|                                                                  |\n"
 			+ "|                            ZUNO Bank AG                          |\n"
 			+ "|                                                                  |\n"
-			+ "+------------------------------------------------------------------+\n"
-			+ "Prosim vyberte jednu z nizsie uvedenych moznosti:                   \n"
-			+ "1) Zalozenie noveho uctu                                            \n"
-			+ "2) Vytvor vklad                                                     \n"
-			+ "3) Vytvor vyber                                                     \n"
-			+ "4) Vypis info o ucte                                                \n"
-			+ "0) Koniec                                                           \n"
-			+ "\n";
-	private static final String TEXT_HLAVICKA_ZALOZENIE_NOVEHO_UCTU = "\n"
-			+ "====================================================================\n"
-			+ "Menu - Zalozenie noveho uctu                                        \n"
-			+ "====================================================================\n"
-			+ "\n";
-	private static final String TEXT_HLAVICKA_VOLBA_UCTU = "\n"
-			+ "====================================================================\n"
-			+ "Menu - Volba uctu                                                   \n"
-			+ "====================================================================\n"
-			+ "\n";
-	private static final String TEXT_KONIEC_PROGRAMU = "\nDakujeme vam, ze pouzivate ZUNO Bank AG\n";
+			+ "+------------------------------------------------------------------+\n";
+	private static final String[] TEXT_MENU_DOMOV = { "Prosim vyberte jednu z nizsie uvedenych moznosti:", 
+													  "1) Zalozenie noveho uctu",
+													  "2) Vytvor vklad",
+													  "3) Vytvor vyber",
+													  "4) Vypis info o ucte",
+													  "0) Koniec"
+													};
+	private static final String TEXT_VOLBA = "Vasa volba:";
+	public static final String TEXT_ODDELOVAC = ""
+			+ "======================================================================";
+	private static final String TEXT_ZIADNE_UCTY = "Nie su dostupne ziadne ucty";
+	private static final String TEXT_MENU_ZALOZENIE_NOVEHO_UCTU = "Menu - Zalozenie noveho uctu";
+	private static final String TEXT_MENU_VOLBA_UCTU = "Menu - Volba uctu";
+	private static final String TEXT_KRSTNE_MENO = "Krstne meno:";
+	private static final String TEXT_PRIEZVISKO = "Priezvisko:";
+	private static final String TEXT_RODNE_CISLO = "Rodne cislo:";
+	private static final String TEXT_TYP_UCTU = "O aky ucet mate zaujem (bezny alebo sporiaci)?";
+	private static final String TEXT_BEZNY_UCET = "bezny";
+	private static final String TEXT_SPORIACI_UCET = "sporiaci";
+	private static final String TEXT_POCIATOCNY_VKLAD = "Pociatocny vklad:";
+	private static final String TEXT_VKLAD_NA_UCET_OK = "Vklad na ucet bol uspesne zrealizovany. Aktualny zostatok na ucte:";
+	private static final String TEXT_VOLBA_2 = "Prosim vyber ucet:";
+	private static final String CHYBA_NEEXISTUJUCA_VOLBA = "NEEXISTUJUCA VOLBA!";
+
+	private static Scanner scanner;
+	private static String vstup;
+	
 
 	public static void main(String[] args) 
 	{
-		/* lokalne premenne */
 		Banka banka = new Banka(TEXT_NAZOV_BANKY);
-		Menu menu = new Menu(banka);
-		Scanner vstup;
+		scanner = new Scanner(System.in);
+		int pocetUctov;
 		
-		/* cyklus zabezpecujuci chod menu */
-		while(true) 
+		System.out.print(TEXT_SPUSTENIE);
+		
+		do 
 		{
-			byte stav = menu.getStav();
+			pocetUctov = banka.getZoznamKlientov().size();
 			
-			/* na zaklade stavu, v akom sa menu nachadza, zobrazi jeho dostupne volby */
-			if (stav == Menu.DOMOV) 
+			vypisVolbyMenu(TEXT_MENU_DOMOV);
+			vstup = scanner.next();
+			
+			if (vstup.equals("1")) 
 			{
-				System.out.print(TEXT_OBRAZOVKA_DOMOV);
-				System.out.print(TEXT_VSTUP_OD_POUZIVATELA);
-				vstup = new Scanner(System.in);
+				obalAVypis(TEXT_MENU_ZALOZENIE_NOVEHO_UCTU);
 				
-				/* kontroluje, ci zadana volba na vstupe je cele cislo */
-				if (vstup.hasNextByte()) 
-				{
-					byte volba = vstup.nextByte();
-					
-					/* kontroluje, ci zadana volba na vstupe sa zhoduje s moznostami v menu */
-					if (volba == 0) 
-					{
-						System.out.print(TEXT_KONIEC_PROGRAMU);
-						break;
-					}
-					else if (volba == 1) 
-					{
-						System.out.print(TEXT_HLAVICKA_ZALOZENIE_NOVEHO_UCTU);
-						System.out.print(TEXT_KRSTNE_MENO_KLIENTA);
-						String menoKlienta = vstup.next();
-						
-						System.out.print(TEXT_PRIEZVISKO_KLIENTA);
-						String priezviskoKlienta = vstup.next();
-						
-						System.out.print(TEXT_RODNE_CISLO_KLIENTA);
-						String rodneCisloKlienta = vstup.next();
-						
-						System.out.println(TEXT_AKY_UCET);
-						BankovyUcet ucet;
-						
-						/* */
-						while (true) 
-						{
-							/* */
-							if (vstup.hasNext()) 
-							{
-								String retazec = vstup.next();
-								
-								/* */
-								if (retazec.equalsIgnoreCase(TEXT_VSTUP_BEZNY_UCET)) 
-								{
-									while (true) 
-									{
-										System.out.print(TEXT_POCIATOCNY_VKLAD);
-										double suma = vstup.nextDouble();
-										
-										if (suma >= MIN_CIASTKA_PRE_VYTVORENIE_BEZNEHO_UCTU) {
-											ucet = new BeznyUcet(suma);
-											break;
-										}
-										else
-										{
-											System.out.println(TEXT_NEDOSTATOCNY_POCIATOCNY_VKLAD_BEZNY_UCET);
-										}
-									}
-									break;
-								}
-								else if (retazec.equalsIgnoreCase(TEXT_VSTUP_SPORIACI_UCET))
-								{
-									ucet = new SporiaciUcet();
-									break;
-								}
-								else
-								{
-									System.out.print(TEXT_NEEXISTUJUCA_VOLBA);
-								}
-							}
-						}
-						
-						Klient klient = new Klient(menoKlienta, priezviskoKlienta, rodneCisloKlienta, ucet);
-						banka.pridajKlienta(klient);
-					}
-					else if (volba == 2) 
-					{
-						System.out.print(TEXT_HLAVICKA_VOLBA_UCTU);
-					}
-					else if (volba == 3) 
-					{
-						System.out.print(TEXT_HLAVICKA_VOLBA_UCTU);
-					}
-					else if (volba == 4) 
-					{
-						System.out.print(TEXT_HLAVICKA_VOLBA_UCTU);
-					}
-					else 
-					{
-						System.out.print(TEXT_NEEXISTUJUCA_VOLBA);
-					}
-				}
-				else {
-					System.out.print(TEXT_NEEXISTUJUCA_VOLBA);
+				Klient klient = novyKlient();
+				banka.pridajKlienta(klient);
+				
+				obalAVypis(TEXT_VKLAD_NA_UCET_OK + "\n" + klient.getUcet().getAktualnyZostatok());
+			}
+			else if (vstup.equals("2")) 
+			{
+				obalAVypis(TEXT_MENU_VOLBA_UCTU);
+				
+				if (pocetUctov == 0) {
+					obalAVypis(TEXT_ZIADNE_UCTY);
 				}
 			}
+			else if (vstup.equals("4")) 
+			{
+				obalAVypis(TEXT_MENU_VOLBA_UCTU);
+				System.out.print(banka.zobrazZoznamUctov());
+				
+				System.out.print(TEXT_VOLBA_2 + " ");
+				vstup = scanner.next();
+				int poradoveCislo = Integer.parseInt(vstup) - 1;
+				
+				obalAVypis(banka.zobrazInformacieOUcte(poradoveCislo));
+				
+			}
+			else if (!vstup.equals("0"))
+			{
+				/* ak na vstupe pride hocico ine ako 0 - 4, vypise na standardny vystup chybovu hlasku */
+				obalAVypis(CHYBA_NEEXISTUJUCA_VOLBA);
+			}
+			
 		}
-		vstup.close();
+		while(!vstup.equals("0"));
+		/* na vstupe bola zadana nula, cyklus sa prerusi a vypise na standardny vystup podakovanie a program skonci */
+		System.out.println("\n" + TEXT_UKONCENIE + " " + TEXT_NAZOV_BANKY);
+	}
+	
+	private static Klient novyKlient() 
+	{
+		System.out.print(TEXT_KRSTNE_MENO + " ");
+		String meno = scanner.next();
+		
+		System.out.print(TEXT_PRIEZVISKO + " ");
+		String priezvisko = scanner.next();
+		
+		System.out.print(TEXT_RODNE_CISLO + " ");
+		String rodneCislo = scanner.next();
+		
+		System.out.print(TEXT_TYP_UCTU + " ");
+		String typUctu = scanner.next();
+		
+		BankovyUcet ucet = zalozUcet(typUctu);
+		
+		return new Klient(meno, priezvisko, rodneCislo, ucet);
 	}
 
+	private static BankovyUcet zalozUcet(String typUctu) 
+	{
+		System.out.print(TEXT_POCIATOCNY_VKLAD + " ");
+		String suma = scanner.next();
+		
+		if (typUctu.equalsIgnoreCase(TEXT_BEZNY_UCET))
+		{
+			return new BeznyUcet(Double.parseDouble(suma));
+		}
+		
+//		else if (typUctu.equalsIgnoreCase(TEXT_SPORIACI_UCET))
+//		{
+//			
+//		}
+		
+		return null;
+		
+	}
+
+	private static void vypisVolbyMenu(String[] textMenuDomov) 
+	{
+		for (String riadok : textMenuDomov) 
+		{
+			System.out.print(riadok + "\n");
+		}
+		System.out.print(TEXT_VOLBA + " ");
+	}
+	
+	private static void obalAVypis(String sprava) {
+		System.out.println("\n" + TEXT_ODDELOVAC + "\n" + sprava + "\n" + TEXT_ODDELOVAC + "\n");
+	}
+	
 }

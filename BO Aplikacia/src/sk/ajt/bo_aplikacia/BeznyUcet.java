@@ -1,5 +1,6 @@
 package sk.ajt.bo_aplikacia;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 
 /**
@@ -20,9 +21,18 @@ import java.util.Scanner;
  */
 public class BeznyUcet extends BankovyUcet 
 {
+	private int pociatocneIdBeznehoUctu = 100_123_000;
+	private int idBeznyUcet;
+	
+	/**
+	 * 
+	 * @param pociatocnyZostatok
+	 */
 	public BeznyUcet(double pociatocnyZostatok) 
 	{
 		super(pociatocnyZostatok);
+		idBeznyUcet = ++pociatocneIdBeznehoUctu;
+		super.setIdUctu(idBeznyUcet);
 	}
 	
 //	//TODO: doplnit podmienku ---- > min. vklad musi byt 50 EUR
