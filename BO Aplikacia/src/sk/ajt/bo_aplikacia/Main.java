@@ -21,18 +21,8 @@ import java.util.Scanner;
  */
 public class Main 
 {
-	/* konstanty */
 	private static final double MIN_CIASTKA_BEZNY_UCET = 100.00;
-	
-	private static final String TEXT_NEDOSTATOCNY_POCIATOCNY_VKLAD_BEZNY_UCET = ""
-			+ "Nedostatocny pociatocny vklad. Pociatocny vklad musi byt minimalne 100 Eur.";
-	
-	
-	
-/*PREROBENE=============================================================================================================
- * ===================================================================================================================*/	
-	
-	
+	private static final double MIN_CIASTKA_SPORIACI_UCET = 50.00;
 	
 	private static final String TEXT_NAZOV_BANKY = "ZUNO Bank AG";
 	private static final String TEXT_UKONCENIE = "Dakujeme vam, ze pouzivate";
@@ -51,8 +41,7 @@ public class Main
 													  "0) Koniec"
 													};
 	private static final String TEXT_VOLBA = "Vasa volba:";
-	public static final String TEXT_ODDELOVAC = ""
-			+ "======================================================================";
+	private static final String TEXT_ODDELOVAC = "======================================================================";
 	private static final String TEXT_ZIADNE_UCTY = "Nie su dostupne ziadne ucty";
 	private static final String TEXT_MENU_ZALOZENIE_NOVEHO_UCTU = "Menu - Zalozenie noveho uctu";
 	private static final String TEXT_MENU_VOLBA_UCTU = "Menu - Volba uctu";
@@ -65,7 +54,14 @@ public class Main
 	private static final String TEXT_POCIATOCNY_VKLAD = "Pociatocny vklad:";
 	private static final String TEXT_VKLAD_NA_UCET_OK = "Vklad na ucet bol uspesne zrealizovany. Aktualny zostatok na ucte:";
 	private static final String TEXT_VOLBA_2 = "Prosim vyber ucet:";
+	private static final String TEXT_NEDOSTATOCNY_POCIATOCNY_VKLAD = "Nedostatocny pociatocny vklad. "
+																	+ "Pociatocny vklad musi byt minimalne";
+	
 	private static final String CHYBA_NEEXISTUJUCA_VOLBA = "NEEXISTUJUCA VOLBA!";
+
+
+
+
 
 	private static Scanner scanner;
 	private static String vstup;
@@ -148,21 +144,34 @@ public class Main
 
 	private static BankovyUcet zalozUcet(String typUctu) 
 	{
-		System.out.print(TEXT_POCIATOCNY_VKLAD + " ");
-		String suma = scanner.next();
-		
-		if (typUctu.equalsIgnoreCase(TEXT_BEZNY_UCET))
+		while(true)
 		{
-			return new BeznyUcet(Double.parseDouble(suma));
+			System.out.print(TEXT_POCIATOCNY_VKLAD + " ");
+			Double suma = scanner.nextDouble();
+			
+			if (typUctu.equalsIgnoreCase(TEXT_BEZNY_UCET))
+			{
+				if (suma >= MIN_CIASTKA_BEZNY_UCET)
+				{
+					return new BeznyUcet(suma);
+				}
+				else
+				{
+					System.out.println(TEXT_NEDOSTATOCNY_POCIATOCNY_VKLAD + " " + MIN_CIASTKA_BEZNY_UCET + " Eur.");
+				}
+			}
+			else if (typUctu.equalsIgnoreCase(TEXT_SPORIACI_UCET))
+			{
+				if (suma >= MIN_CIASTKA_SPORIACI_UCET) 
+				{
+					return new SporiaciUcet(suma);
+				}
+				else 
+				{
+					System.out.println(TEXT_NEDOSTATOCNY_POCIATOCNY_VKLAD + " " + MIN_CIASTKA_SPORIACI_UCET + " Eur.");
+				}
+			}
 		}
-		
-//		else if (typUctu.equalsIgnoreCase(TEXT_SPORIACI_UCET))
-//		{
-//			
-//		}
-		
-		return null;
-		
 	}
 
 	private static void vypisVolbyMenu(String[] textMenuDomov) 

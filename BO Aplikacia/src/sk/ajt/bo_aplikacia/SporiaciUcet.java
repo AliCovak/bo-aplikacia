@@ -18,7 +18,9 @@ package sk.ajt.bo_aplikacia;
  */
 public class SporiaciUcet extends BankovyUcet {
 	
-//private double urokovaSadzba;
+	private int pociatocneIdSporiacehoUctu = 200_456_000;
+	private int idSporiaciUcet;
+	private double urokovaSadzba;
 	
 	/**
 	 * 
@@ -27,6 +29,8 @@ public class SporiaciUcet extends BankovyUcet {
 	public SporiaciUcet(double pociatocnyZostatok) 
 	{
 		super(pociatocnyZostatok);
+		idSporiaciUcet = ++pociatocneIdSporiacehoUctu;
+		super.setIdUctu(idSporiaciUcet);
 	}
 	
 //	public SporiaciUcet(double urokovaSadzba)
@@ -34,17 +38,7 @@ public class SporiaciUcet extends BankovyUcet {
 //		super();	
 //		this.urokovaSadzba = urokovaSadzba;
 //	}
-
 	
-//	//TODO: doplnit podmienku ---- > min. vklad musi byt 100 EUR
-//	public SporiaciUcet(double urokovaSadzba, double pociatocnyZostatok)
-//	{
-//		
-//		super(pociatocnyZostatok);
-//		this.urokovaSadzba = urokovaSadzba;
-//		
-//	}
-//	
 //	public void pripisUrok()
 //	{
 //		double urok = (getAktualnyZostatok() * urokovaSadzba) / 100;
