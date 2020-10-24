@@ -63,11 +63,12 @@ public class Menu
 
 	private Scanner scanner;
 	private String vstup;
+	private Banka banka;
 	
 
 	public Menu() 
 	{
-		Banka banka = new Banka(TEXT_NAZOV_BANKY);
+		banka = new Banka(TEXT_NAZOV_BANKY);
 		scanner = new Scanner(System.in);
 		int pocetUctov;
 		
@@ -100,14 +101,8 @@ public class Menu
 				else
 				{
 					System.out.print(banka.zobrazZoznamUctov());
-					System.out.print(TEXT_VOLBA_2 + " ");
-					
-					vstup = scanner.next();
-					int poradoveCislo = Integer.parseInt(vstup) - 1;
-					
-					System.out.print(TEXT_AKU_CIASTKU_SI_ZELATE_VLOZIT + " ");
-					double ciastka = scanner.nextDouble();
-					
+					int poradoveCislo = skenujInt() - 1;
+					double ciastka = skenujDouble(TEXT_AKU_CIASTKU_SI_ZELATE_VLOZIT + " ");
 					obalAVypis(banka.getZoznamKlientov().get(poradoveCislo).getUcet().vloz(ciastka));
 				}
 			}
@@ -121,14 +116,8 @@ public class Menu
 				else
 				{
 					System.out.print(banka.zobrazZoznamUctov());
-					System.out.print(TEXT_VOLBA_2 + " ");
-					
-					vstup = scanner.next();
-					int poradoveCislo = Integer.parseInt(vstup) - 1;
-					
-					System.out.print(TEXT_AKU_CIASTKU_SI_ZELATE_VYBRAT + " ");
-					double ciastka = scanner.nextDouble();
-					
+					int poradoveCislo = skenujInt() - 1;
+					double ciastka = skenujDouble(TEXT_AKU_CIASTKU_SI_ZELATE_VYBRAT + " ");
 					obalAVypis(banka.getZoznamKlientov().get(poradoveCislo).getUcet().vyber(ciastka));
 				}
 			}
@@ -142,11 +131,7 @@ public class Menu
 				else
 				{
 					System.out.print(banka.zobrazZoznamUctov());
-					
-					System.out.print(TEXT_VOLBA_2 + " ");
-					vstup = scanner.next();
-					int poradoveCislo = Integer.parseInt(vstup) - 1;
-					
+					int poradoveCislo = skenujInt() - 1;
 					obalAVypis(banka.zobrazInformacieOUcte(poradoveCislo));
 				}
 			}
@@ -208,7 +193,7 @@ public class Menu
 	{
 		while(true)
 		{
-			Double suma =  skenujCislo(); //scanner.nextDouble();
+			Double suma = skenujDouble(TEXT_POCIATOCNY_VKLAD + " ");
 			
 			if (typUctu.equalsIgnoreCase(TEXT_BEZNY_UCET))
 			{
@@ -235,7 +220,7 @@ public class Menu
 		}
 	}
 
-	private Double skenujCislo() 
+	private Double skenujDouble(String vyzva) 
 	{
 		while (true)
 		{
@@ -243,8 +228,7 @@ public class Menu
 			 * Riesi problem s predchadzajucou nacitanou hodnotou.
 			 */
 			scanner.nextLine();
-			
-			System.out.print(TEXT_POCIATOCNY_VKLAD + " ");
+			System.out.print(vyzva);
 			
 			if(scanner.hasNextDouble())
 			{
@@ -254,6 +238,31 @@ public class Menu
 			{
 				System.out.println("Neplatna hodnota.");
 			}
+		}
+	}
+	
+	private int skenujInt() 
+	{
+		while (true)
+		{
+			/* 
+			 * Riesi problem s predchadzajucou nacitanou hodnotou.
+			 */
+			scanner.nextLine();
+			
+			System.out.print(TEXT_VOLBA_2 + " ");
+			
+			if(scanner.hasNextInt())
+			{
+				int cislo = scanner.nextInt();
+				
+				if(cislo > 0 && cislo <= banka.getZoznamKlientov().size())
+				{
+					return cislo;
+				}
+			}
+			
+			System.out.println("Neplatna hodnota.");
 		}
 	}
 
