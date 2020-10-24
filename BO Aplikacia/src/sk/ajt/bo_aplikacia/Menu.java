@@ -155,7 +155,6 @@ public class Menu
 				/* ak na vstupe pride hocico ine ako 0 - 4, vypise na standardny vystup chybovu hlasku */
 				obalAVypis(CHYBA_NEEXISTUJUCA_VOLBA);
 			}
-			
 		}
 		while(!vstup.equals("0"));
 		/* na vstupe bola zadana nula, cyklus sa prerusi a vypise na standardny vystup podakovanie a program skonci */
@@ -173,20 +172,43 @@ public class Menu
 		System.out.print(TEXT_RODNE_CISLO + " ");
 		String rodneCislo = scanner.next();
 		
-		System.out.print(TEXT_TYP_UCTU + " ");
-		String typUctu = scanner.next();
-		
+		String typUctu = zadajTypUctu();
 		BankovyUcet ucet = zalozUcet(typUctu);
 		
 		return new Klient(meno, priezvisko, rodneCislo, ucet);
+	}
+
+	private String zadajTypUctu() 
+	{
+		String typUctu = "";
+		
+		while(true) 
+		{
+			System.out.print(TEXT_TYP_UCTU + " ");
+			typUctu = scanner.next();
+			
+			if (typUctu.equalsIgnoreCase(TEXT_BEZNY_UCET))
+			{
+				typUctu = TEXT_BEZNY_UCET;
+				return typUctu;
+			}
+			else if (typUctu.equalsIgnoreCase(TEXT_SPORIACI_UCET))
+			{
+				typUctu = TEXT_SPORIACI_UCET;
+				return typUctu;
+			}
+			else
+			{
+				System.out.println("Typ uctu \"" + typUctu + "\" neexistuje.");
+			}
+		}
 	}
 
 	private BankovyUcet zalozUcet(String typUctu) 
 	{
 		while(true)
 		{
-			System.out.print(TEXT_POCIATOCNY_VKLAD + " ");
-			Double suma = scanner.nextDouble();
+			Double suma =  skenujCislo(); //scanner.nextDouble();
 			
 			if (typUctu.equalsIgnoreCase(TEXT_BEZNY_UCET))
 			{
@@ -209,6 +231,28 @@ public class Menu
 				{
 					System.out.println(TEXT_NEDOSTATOCNY_POCIATOCNY_VKLAD + " " + MIN_CIASTKA_SPORIACI_UCET + " Eur.");
 				}
+			}
+		}
+	}
+
+	private Double skenujCislo() 
+	{
+		while (true)
+		{
+			/* 
+			 * Riesi problem s predchadzajucou nacitanou hodnotou.
+			 */
+			scanner.nextLine();
+			
+			System.out.print(TEXT_POCIATOCNY_VKLAD + " ");
+			
+			if(scanner.hasNextDouble())
+			{
+				return scanner.nextDouble();
+			}
+			else
+			{
+				System.out.println("Neplatna hodnota.");
 			}
 		}
 	}
