@@ -5,21 +5,20 @@ import java.util.ArrayList;
 /**
  * <h1>Trieda Banka</h1>
  * <p>
- *    Popis
+ * Popis
  * </p>
- * <h2>obsahuje:</h2>  
- *    <ul>
- *       <li>nazov/meno banky</li>
- *       <li>zoznam klientov</li>
- *    </ul>
+ * <h2>obsahuje:</h2>
+ * <ul>
+ * <li>nazov/meno banky</li>
+ * <li>zoznam klientov</li>
+ * </ul>
  * <h2>zodpoveda za:</h2>
- *    <ul>
- *       <li>vytvorenie objektu Banka</li>
- *       <li></li>
- *    </ul>
+ * <ul>
+ * <li>vytvorenie objektu Banka</li>
+ * <li></li>
+ * </ul>
  */
-public class Banka 
-{
+public class Banka {
 	private static final String TEXT_CELE_MENO = "Meno:";
 	private static final String TEXT_RODNE_CISLO = "Rodne cislo:";
 	private static final String TEXT_CISLO_UCTU = "Cislo uctu #:";
@@ -27,85 +26,95 @@ public class Banka
 	private static final String TEXT_SPORIACI_UCET = "Sporiaci Ucet:";
 	private static final String TEXT_AKTUALNY_ZOSTATOK = "Aktualny zostatok:";
 	private static final String TEXT_UROKOVA_SADZBA = "Urokova sadzba:";
-	
+
 	private String nazovBanky;
+	private DataBase db = new DataBase();
 	private ArrayList<Klient> zoznamKlientov = new ArrayList<Klient>();
-	
+
 	/**
 	 * Vytvara objekt Banka.
 	 * 
 	 * @param nazovBanky nazov/meno banky
 	 */
-	public Banka(String nazovBanky) 
-	{
+	public Banka(String nazovBanky) {
 		this.nazovBanky = nazovBanky;
 	}
-	
+
 	/**
 	 * 
 	 * @param klient
 	 */
-	public void pridajKlienta(Klient klient) 
-	{
-		zoznamKlientov.add(klient);
+	public void pridajKlienta(Klient klient) {
+		db.addNewKlient(klient);
 	}
-	
+
 	/**
 	 * 
 	 * @param poradoveCislo
 	 * @return
 	 */
-	public String zobrazInformacieOUcte(int poradoveCislo)
-	{
+	public String zobrazInformacieOUcte(int poradoveCislo) {
 		Klient klient = zoznamKlientov.get(poradoveCislo);
 		String typUctu;
 		String urok = "";
-		
-		if (klient.getUcet() instanceof BeznyUcet) 
-		{
+
+		if (klient.getUcet() instanceof BeznyUcet) {
 			typUctu = TEXT_BEZNY_UCET;
-		}
-		else
-		{
+		} else {
 			typUctu = TEXT_SPORIACI_UCET;
-			/* urok pravdepodobne nebudeme pocitat, nakolko sa v poziadavkach, nenachadza iba bonus pri zalozeni uctu */
+			/*
+			 * urok pravdepodobne nebudeme pocitat, nakolko sa v poziadavkach, nenachadza
+			 * iba bonus pri zalozeni uctu
+			 */
 //			urok = "\n" + TEXT_UROKOVA_SADZBA + " " + "x" + "%";
-			
+
 		}
-		
-		return TEXT_CELE_MENO + " " + klient.getMeno() + " " + klient.getPriezvisko() + " "
-			 + TEXT_RODNE_CISLO + klient.getRodneCislo() + " "
-			 + TEXT_CISLO_UCTU + " " + klient.getUcet().getIdUctu() + "\n"
-			 + typUctu + " " + klient.getUcet().getIdUctu() + "\n"
-			 + TEXT_AKTUALNY_ZOSTATOK + " " + klient.getUcet().getAktualnyZostatok();
+
+		return TEXT_CELE_MENO + " " + klient.getMeno() + " " + klient.getPriezvisko() + " " + TEXT_RODNE_CISLO
+				+ klient.getRodneCislo() + " " + TEXT_CISLO_UCTU + " " + klient.getUcet().getIdUctu() + "\n" + typUctu
+				+ " " + klient.getUcet().getIdUctu() + "\n" + TEXT_AKTUALNY_ZOSTATOK + " "
+				+ klient.getUcet().getAktualnyZostatok();
 //			 + urok;
 	}
-	
+
 	/**
 	 * 
 	 * @return
 	 */
-	public String zobrazZoznamUctov() 
-	{
+//	public String zobrazZoznamUctov() {
+//		String zoznam = "";
+//
+//		for (int i = 0; i < zoznamKlientov.size(); i++) {
+//			Klient klient = zoznamKlientov.get(i);
+//
+//			zoznam += (i + 1) + ") " + TEXT_CELE_MENO + " " + klient.getMeno() + " " + klient.getPriezvisko() + " "
+//					+ TEXT_RODNE_CISLO + " " + klient.getRodneCislo() + " " + TEXT_CISLO_UCTU + " "
+//					+ klient.getUcet().getIdUctu() + "\n";
+//		}
+//		return zoznam;
+//	}
+
+	public String zobrazZoznamUctov() {
 		String zoznam = "";
-		
-		for (int i = 0; i < zoznamKlientov.size(); i++) 
-		{
+
+		zoznamKlientov = db.getAllKlient();
+
+		for (int i = 0; i < zoznamKlientov.size(); i++) {
 			Klient klient = zoznamKlientov.get(i);
-			
+
 			zoznam += (i + 1) + ") " + TEXT_CELE_MENO + " " + klient.getMeno() + " " + klient.getPriezvisko() + " "
-			+ TEXT_RODNE_CISLO + " " + klient.getRodneCislo() + " "
-			+ TEXT_CISLO_UCTU + " " + klient.getUcet().getIdUctu() + "\n";
+					+ TEXT_RODNE_CISLO + " " + klient.getRodneCislo() + " " + TEXT_CISLO_UCTU + " "
+					+ klient.getUcet().getIdUctu() + "\n";
 		}
 		return zoznam;
 	}
-	
+
 	/**
 	 * 
 	 * @return
 	 */
 	public ArrayList<Klient> getZoznamKlientov() {
 		return zoznamKlientov;
-	} 
+	}
 
 }

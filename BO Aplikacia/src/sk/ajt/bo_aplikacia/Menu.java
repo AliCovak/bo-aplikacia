@@ -5,40 +5,33 @@ import java.util.Scanner;
 /**
  * <h1>Trieda Menu</h1>
  * <p>
- *    Popis
+ * Popis
  * </p>
- * <h2>obsahuje:</h2>  
- *    <ul>
- *       <li></li>
- *       <li></li>
- *    </ul>
+ * <h2>obsahuje:</h2>
+ * <ul>
+ * <li></li>
+ * <li></li>
+ * </ul>
  * <h2>zodpoveda za:</h2>
  * <ul>
- *       <li></li>
- *       <li></li>
+ * <li></li>
+ * <li></li>
  * </ul>
  */
-public class Menu 
-{
+public class Menu {
 	private final double MIN_CIASTKA_BEZNY_UCET = 100.00;
 	private final double MIN_CIASTKA_SPORIACI_UCET = 50.00;
-	
+
 	private final String TEXT_NAZOV_BANKY = "ZUNO Bank AG";
 	private final String TEXT_UKONCENIE = "Dakujeme vam, ze pouzivate";
-	private final String TEXT_SPUSTENIE = ""
-			+ "+------------------------------------------------------------------+\n"
+	private final String TEXT_SPUSTENIE = "" + "+------------------------------------------------------------------+\n"
 			+ "|                       Vitajte v BO Aplikacii                     |\n"
 			+ "|                                                                  |\n"
 			+ "|                            ZUNO Bank AG                          |\n"
 			+ "|                                                                  |\n"
 			+ "+------------------------------------------------------------------+\n";
-	private final String[] TEXT_MENU_DOMOV = { "Prosim vyberte jednu z nizsie uvedenych moznosti:", 
-													  "1) Zalozenie noveho uctu",
-													  "2) Vytvor vklad",
-													  "3) Vytvor vyber",
-													  "4) Vypis info o ucte",
-													  "0) Koniec"
-													};
+	private final String[] TEXT_MENU_DOMOV = { "Prosim vyberte jednu z nizsie uvedenych moznosti:",
+			"1) Zalozenie noveho uctu", "2) Vytvor vklad", "3) Vytvor vyber", "4) Vypis info o ucte", "0) Koniec" };
 	private final String TEXT_VOLBA = "Vasa volba:";
 	private final String TEXT_ODDELOVAC = "======================================================================";
 	private final String TEXT_ZIADNE_UCTY = "Nie su dostupne ziadne ucty";
@@ -52,231 +45,189 @@ public class Menu
 	private final String TEXT_SPORIACI_UCET = "sporiaci";
 	private final String TEXT_POCIATOCNY_VKLAD = "Pociatocny vklad:";
 	private final String TEXT_VKLAD_NA_UCET_OK_PLUS_BONUS = "Vklad na ucet bol uspesne zrealizovany. \n"
-												+ "Aktualny zostatok na ucte, vratane bonusu";
+			+ "Aktualny zostatok na ucte, vratane bonusu";
 	private final String TEXT_VOLBA_2 = "Prosim vyber ucet:";
 	private final String TEXT_NEDOSTATOCNY_POCIATOCNY_VKLAD = "Nedostatocny pociatocny vklad. "
-																	+ "Pociatocny vklad musi byt minimalne";
+			+ "Pociatocny vklad musi byt minimalne";
 	private final String TEXT_AKU_CIASTKU_SI_ZELATE_VLOZIT = "Aku ciastku si zelate vlozit?";
 	private final String TEXT_AKU_CIASTKU_SI_ZELATE_VYBRAT = "Aku ciastku si zelate vybrat?";
-	
+
 	private final String CHYBA_NEEXISTUJUCA_VOLBA = "NEEXISTUJUCA VOLBA!";
 
 	private Scanner scanner;
 	private String vstup;
 	private Banka banka;
-	
 
-	public Menu() 
-	{
+	public Menu() {
 		banka = new Banka(TEXT_NAZOV_BANKY);
 		scanner = new Scanner(System.in);
 		int pocetUctov;
-		
+
 		System.out.print(TEXT_SPUSTENIE);
-		
-		do 
-		{
+
+		do {
 			pocetUctov = banka.getZoznamKlientov().size();
-			
+
 			vypisVolbyMenu(TEXT_MENU_DOMOV);
 			vstup = scanner.next();
-			
-			if (vstup.equals("1")) 
-			{
+
+			if (vstup.equals("1")) {
 				obalAVypis(TEXT_MENU_ZALOZENIE_NOVEHO_UCTU);
-				
+
 				Klient klient = novyKlient();
 				banka.pridajKlienta(klient);
-				
-				obalAVypis(TEXT_VKLAD_NA_UCET_OK_PLUS_BONUS + " " + klient.getUcet().getBonus() 
-						+ "%: " + klient.getUcet().getAktualnyZostatok() + " Eur");
-			}
-			else if (vstup.equals("2")) 
-			{
+
+				obalAVypis(TEXT_VKLAD_NA_UCET_OK_PLUS_BONUS + " " /* + klient.getUcet().getBonus() + "%: " */
+						+ klient.getAktualnyZostatok() + " Eur");
+
+			} else if (vstup.equals("2")) {
 				obalAVypis(TEXT_MENU_VOLBA_UCTU);
-				
+
 				if (pocetUctov == 0) {
 					obalAVypis(TEXT_ZIADNE_UCTY);
-				}
-				else
-				{
+				} else {
 					System.out.print(banka.zobrazZoznamUctov());
 					int poradoveCislo = skenujInt() - 1;
 					double ciastka = skenujDouble(TEXT_AKU_CIASTKU_SI_ZELATE_VLOZIT + " ");
 					obalAVypis(banka.getZoznamKlientov().get(poradoveCislo).getUcet().vloz(ciastka));
 				}
-			}
-			else if (vstup.equals("3")) 
-			{
+			} else if (vstup.equals("3")) {
 				obalAVypis(TEXT_MENU_VOLBA_UCTU);
-				
+
 				if (pocetUctov == 0) {
 					obalAVypis(TEXT_ZIADNE_UCTY);
-				}
-				else
-				{
+				} else {
 					System.out.print(banka.zobrazZoznamUctov());
 					int poradoveCislo = skenujInt() - 1;
 					double ciastka = skenujDouble(TEXT_AKU_CIASTKU_SI_ZELATE_VYBRAT + " ");
 					obalAVypis(banka.getZoznamKlientov().get(poradoveCislo).getUcet().vyber(ciastka));
 				}
-			}
-			else if (vstup.equals("4")) 
-			{
+			} else if (vstup.equals("4")) {
 				obalAVypis(TEXT_MENU_VOLBA_UCTU);
-				
+
 				if (pocetUctov == 0) {
 					obalAVypis(TEXT_ZIADNE_UCTY);
-				}
-				else
-				{
+				} else {
 					System.out.print(banka.zobrazZoznamUctov());
 					int poradoveCislo = skenujInt() - 1;
 					obalAVypis(banka.zobrazInformacieOUcte(poradoveCislo));
 				}
-			}
-			else if (!vstup.equals("0"))
-			{
-				/* ak na vstupe pride hocico ine ako 0 - 4, vypise na standardny vystup chybovu hlasku */
+			} else if (!vstup.equals("0")) {
+				/*
+				 * ak na vstupe pride hocico ine ako 0 - 4, vypise na standardny vystup chybovu
+				 * hlasku
+				 */
 				obalAVypis(CHYBA_NEEXISTUJUCA_VOLBA);
 			}
-		}
-		while(!vstup.equals("0"));
-		/* na vstupe bola zadana nula, cyklus sa prerusi a vypise na standardny vystup podakovanie a program skonci */
+		} while (!vstup.equals("0"));
+		/*
+		 * na vstupe bola zadana nula, cyklus sa prerusi a vypise na standardny vystup
+		 * podakovanie a program skonci
+		 */
 		System.out.println("\n" + TEXT_UKONCENIE + " " + TEXT_NAZOV_BANKY);
 	}
-	
-	private Klient novyKlient() 
-	{
+
+	private Klient novyKlient() {
 		System.out.print(TEXT_KRSTNE_MENO + " ");
 		String meno = scanner.next();
-		
+
 		System.out.print(TEXT_PRIEZVISKO + " ");
 		String priezvisko = scanner.next();
-		
+
 		System.out.print(TEXT_RODNE_CISLO + " ");
 		String rodneCislo = scanner.next();
-		
+
 		String typUctu = zadajTypUctu();
 		BankovyUcet ucet = zalozUcet(typUctu);
-		
-		return new Klient(meno, priezvisko, rodneCislo, ucet);
+
+		return new Klient(meno, priezvisko, rodneCislo, ucet.getAktualnyZostatok(), ucet.getIdUctu());
 	}
 
-	private String zadajTypUctu() 
-	{
+	private String zadajTypUctu() {
 		String typUctu = "";
-		
-		while(true) 
-		{
+
+		while (true) {
 			System.out.print(TEXT_TYP_UCTU + " ");
 			typUctu = scanner.next();
-			
-			if (typUctu.equalsIgnoreCase(TEXT_BEZNY_UCET))
-			{
+
+			if (typUctu.equalsIgnoreCase(TEXT_BEZNY_UCET)) {
 				typUctu = TEXT_BEZNY_UCET;
 				return typUctu;
-			}
-			else if (typUctu.equalsIgnoreCase(TEXT_SPORIACI_UCET))
-			{
+			} else if (typUctu.equalsIgnoreCase(TEXT_SPORIACI_UCET)) {
 				typUctu = TEXT_SPORIACI_UCET;
 				return typUctu;
-			}
-			else
-			{
+			} else {
 				System.out.println("Typ uctu \"" + typUctu + "\" neexistuje.");
 			}
 		}
 	}
 
-	private BankovyUcet zalozUcet(String typUctu) 
-	{
-		while(true)
-		{
+	private BankovyUcet zalozUcet(String typUctu) {
+		while (true) {
 			Double suma = skenujDouble(TEXT_POCIATOCNY_VKLAD + " ");
-			
-			if (typUctu.equalsIgnoreCase(TEXT_BEZNY_UCET))
-			{
-				if (suma >= MIN_CIASTKA_BEZNY_UCET)
-				{
+
+			if (typUctu.equalsIgnoreCase(TEXT_BEZNY_UCET)) {
+				if (suma >= MIN_CIASTKA_BEZNY_UCET) {
 					return new BeznyUcet(suma);
-				}
-				else
-				{
+				} else {
 					System.out.println(TEXT_NEDOSTATOCNY_POCIATOCNY_VKLAD + " " + MIN_CIASTKA_BEZNY_UCET + " Eur.");
 				}
-			}
-			else if (typUctu.equalsIgnoreCase(TEXT_SPORIACI_UCET))
-			{
-				if (suma >= MIN_CIASTKA_SPORIACI_UCET) 
-				{
+			} else if (typUctu.equalsIgnoreCase(TEXT_SPORIACI_UCET)) {
+				if (suma >= MIN_CIASTKA_SPORIACI_UCET) {
 					return new SporiaciUcet(suma);
-				}
-				else 
-				{
+				} else {
 					System.out.println(TEXT_NEDOSTATOCNY_POCIATOCNY_VKLAD + " " + MIN_CIASTKA_SPORIACI_UCET + " Eur.");
 				}
 			}
 		}
 	}
 
-	private Double skenujDouble(String vyzva) 
-	{
-		while (true)
-		{
-			/* 
+	private Double skenujDouble(String vyzva) {
+		while (true) {
+			/*
 			 * Riesi problem s predchadzajucou nacitanou hodnotou.
 			 */
 			scanner.nextLine();
 			System.out.print(vyzva);
-			
-			if(scanner.hasNextDouble())
-			{
+
+			if (scanner.hasNextDouble()) {
 				return scanner.nextDouble();
-			}
-			else
-			{
+			} else {
 				System.out.println("Neplatna hodnota.");
 			}
 		}
 	}
-	
-	private int skenujInt() 
-	{
-		while (true)
-		{
-			/* 
+
+	private int skenujInt() {
+		while (true) {
+			/*
 			 * Riesi problem s predchadzajucou nacitanou hodnotou.
 			 */
 			scanner.nextLine();
-			
+
 			System.out.print(TEXT_VOLBA_2 + " ");
-			
-			if(scanner.hasNextInt())
-			{
+
+			if (scanner.hasNextInt()) {
 				int cislo = scanner.nextInt();
-				
-				if(cislo > 0 && cislo <= banka.getZoznamKlientov().size())
-				{
+
+				if (cislo > 0 && cislo <= banka.getZoznamKlientov().size()) {
 					return cislo;
 				}
 			}
-			
+
 			System.out.println("Neplatna hodnota.");
 		}
 	}
 
-	private void vypisVolbyMenu(String[] textMenuDomov) 
-	{
-		for (String riadok : textMenuDomov) 
-		{
+	private void vypisVolbyMenu(String[] textMenuDomov) {
+		for (String riadok : textMenuDomov) {
 			System.out.print(riadok + "\n");
 		}
 		System.out.print(TEXT_VOLBA + " ");
 	}
-	
+
 	private void obalAVypis(String sprava) {
 		System.out.println("\n" + TEXT_ODDELOVAC + "\n" + sprava + "\n" + TEXT_ODDELOVAC + "\n");
 	}
-	
+
 }
