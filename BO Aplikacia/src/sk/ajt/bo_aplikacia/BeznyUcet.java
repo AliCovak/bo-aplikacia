@@ -1,5 +1,7 @@
 package sk.ajt.bo_aplikacia;
 
+import java.util.ArrayList;
+
 /**
  * <h1>Trieda BeznyUcet</h1>
  * <p>
@@ -18,18 +20,34 @@ package sk.ajt.bo_aplikacia;
  */
 public class BeznyUcet extends BankovyUcet 
 {
-	private static int pociatocneIdBeznehoUctu = 100_123_000;
-	private int idBeznyUcet;
+	private long idBeznyUcet;
 	
 	/**
 	 * 
 	 * @param pociatocnyZostatok
 	 */
-	public BeznyUcet(double pociatocnyZostatok) 
+	public BeznyUcet(double pociatocnyZostatok, ArrayList<Long> zoznamIdUctov) 
 	{
 		super(pociatocnyZostatok);
-		idBeznyUcet = ++pociatocneIdBeznehoUctu;
+		idBeznyUcet = generujIdBeznehoUctu(zoznamIdUctov);
 		super.setIdUctu(idBeznyUcet);
+	}
+
+	private long generujIdBeznehoUctu(ArrayList<Long> zoznamIdUctov) {
+		
+		long noveIdUctu = 100_123_000;
+		
+		if (zoznamIdUctov.size() > 0)
+		{
+			for (Long idUctu : zoznamIdUctov) {
+				if (idUctu < 500_000_000 && idUctu > noveIdUctu)
+				{
+					noveIdUctu = idUctu;
+				}
+			}
+		}
+		
+		return noveIdUctu + 1;
 	}
 	
 }

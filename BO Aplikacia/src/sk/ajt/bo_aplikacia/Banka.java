@@ -30,15 +30,18 @@ public class Banka
 	
 	private String nazovBanky;
 	private ArrayList<Klient> zoznamKlientov = new ArrayList<Klient>();
+	private DataBase dataBase;
+	
 	
 	/**
 	 * Vytvara objekt Banka.
 	 * 
 	 * @param nazovBanky nazov/meno banky
 	 */
-	public Banka(String nazovBanky) 
+	public Banka(String nazovBanky, DataBase dataBase) 
 	{
 		this.nazovBanky = nazovBanky;
+		this.dataBase = dataBase;
 	}
 	
 	/**
@@ -47,7 +50,8 @@ public class Banka
 	 */
 	public void pridajKlienta(Klient klient) 
 	{
-		zoznamKlientov.add(klient);
+//		zoznamKlientov.add(klient);
+		dataBase.addNewKlient(klient);
 	}
 	
 	/**
@@ -57,20 +61,31 @@ public class Banka
 	 */
 	public String zobrazInformacieOUcte(int poradoveCislo)
 	{
-		Klient klient = zoznamKlientov.get(poradoveCislo);
+		Klient klient = dataBase.getAllKlients().get(poradoveCislo);
 		String typUctu;
-		String urok = "";
+//		String urok = "";
 		
-		if (klient.getUcet() instanceof BeznyUcet) 
+//		if (klient.getUcet() instanceof BeznyUcet) 
+//		{
+//			typUctu = TEXT_BEZNY_UCET;
+//		}
+//		else
+//		{
+//			typUctu = TEXT_SPORIACI_UCET;
+//			/* urok pravdepodobne nebudeme pocitat, nakolko sa v poziadavkach, nenachadza iba bonus pri zalozeni uctu */
+////			urok = "\n" + TEXT_UROKOVA_SADZBA + " " + "x" + "%";
+//			
+//		}
+		
+		Long idUctu = klient.getUcet().getIdUctu();
+		
+		if (idUctu.toString().charAt(0) == '1')
 		{
 			typUctu = TEXT_BEZNY_UCET;
 		}
 		else
 		{
 			typUctu = TEXT_SPORIACI_UCET;
-			/* urok pravdepodobne nebudeme pocitat, nakolko sa v poziadavkach, nenachadza iba bonus pri zalozeni uctu */
-//			urok = "\n" + TEXT_UROKOVA_SADZBA + " " + "x" + "%";
-			
 		}
 		
 		return TEXT_CELE_MENO + " " + klient.getMeno() + " " + klient.getPriezvisko() + " "
@@ -89,9 +104,9 @@ public class Banka
 	{
 		String zoznam = "";
 		
-		for (int i = 0; i < zoznamKlientov.size(); i++) 
+		for (int i = 0; i < dataBase.getAllKlients().size(); i++) 
 		{
-			Klient klient = zoznamKlientov.get(i);
+			Klient klient = dataBase.getAllKlients().get(i);
 			
 			zoznam += (i + 1) + ") " + TEXT_CELE_MENO + " " + klient.getMeno() + " " + klient.getPriezvisko() + " "
 			+ TEXT_RODNE_CISLO + " " + klient.getRodneCislo() + " "
@@ -105,7 +120,7 @@ public class Banka
 	 * @return
 	 */
 	public ArrayList<Klient> getZoznamKlientov() {
-		return zoznamKlientov;
+		return dataBase.getAllKlients();
 	} 
 
 }

@@ -1,5 +1,6 @@
 package sk.ajt.bo_aplikacia;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 
 /**
@@ -64,11 +65,12 @@ public class Menu
 	private Scanner scanner;
 	private String vstup;
 	private Banka banka;
+	private DataBase dataBase = new DataBase();
 	
 
 	public Menu() 
 	{
-		banka = new Banka(TEXT_NAZOV_BANKY);
+		banka = new Banka(TEXT_NAZOV_BANKY, dataBase);
 		scanner = new Scanner(System.in);
 		int pocetUctov;
 		
@@ -103,7 +105,9 @@ public class Menu
 					System.out.print(banka.zobrazZoznamUctov());
 					int poradoveCislo = skenujInt() - 1;
 					double ciastka = skenujDouble(TEXT_AKU_CIASTKU_SI_ZELATE_VLOZIT + " ");
-					obalAVypis(banka.getZoznamKlientov().get(poradoveCislo).getUcet().vloz(ciastka));
+					BankovyUcet ucet = banka.getZoznamKlientov().get(poradoveCislo).getUcet();
+					obalAVypis(ucet.vloz(ciastka));
+					dataBase.updateUcet(ucet);
 				}
 			}
 			else if (vstup.equals("3")) 
@@ -118,7 +122,9 @@ public class Menu
 					System.out.print(banka.zobrazZoznamUctov());
 					int poradoveCislo = skenujInt() - 1;
 					double ciastka = skenujDouble(TEXT_AKU_CIASTKU_SI_ZELATE_VYBRAT + " ");
-					obalAVypis(banka.getZoznamKlientov().get(poradoveCislo).getUcet().vyber(ciastka));
+					BankovyUcet ucet = banka.getZoznamKlientov().get(poradoveCislo).getUcet();
+					obalAVypis(ucet.vyber(ciastka));
+					dataBase.updateUcet(ucet);
 				}
 			}
 			else if (vstup.equals("4")) 
@@ -162,7 +168,7 @@ public class Menu
 		
 		return new Klient(meno, priezvisko, rodneCislo, ucet);
 	}
-
+	
 	private String zadajTypUctu() 
 	{
 		String typUctu = "";
@@ -191,6 +197,9 @@ public class Menu
 
 	private BankovyUcet zalozUcet(String typUctu) 
 	{
+		
+		ArrayList<Long> zoznamIdUctov = getZoznamPouzitychIdUctov(dataBase.getAllKlients());
+				
 		while(true)
 		{
 			Double suma = skenujDouble(TEXT_POCIATOCNY_VKLAD + " ");
@@ -198,8 +207,8 @@ public class Menu
 			if (typUctu.equalsIgnoreCase(TEXT_BEZNY_UCET))
 			{
 				if (suma >= MIN_CIASTKA_BEZNY_UCET)
-				{
-					return new BeznyUcet(suma);
+				{ 
+					return new BeznyUcet(suma, zoznamIdUctov);
 				}
 				else
 				{
@@ -210,7 +219,7 @@ public class Menu
 			{
 				if (suma >= MIN_CIASTKA_SPORIACI_UCET) 
 				{
-					return new SporiaciUcet(suma);
+					return new SporiaciUcet(suma, zoznamIdUctov);
 				}
 				else 
 				{
@@ -218,6 +227,15 @@ public class Menu
 				}
 			}
 		}
+	}
+	
+	private ArrayList<Long> getZoznamPouzitychIdUctov(ArrayList<Klient> allKlients) {
+		ArrayList<Long> zoznamIdUctov = new ArrayList<Long>();
+		
+		for (Klient klient : allKlients) {
+			zoznamIdUctov.add(klient.getUcet().getIdUctu());
+		}
+		return zoznamIdUctov;
 	}
 
 	private Double skenujDouble(String vyzva) 

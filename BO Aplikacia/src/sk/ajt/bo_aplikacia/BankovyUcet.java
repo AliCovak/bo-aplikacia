@@ -62,6 +62,20 @@ public class BankovyUcet
 		aktualnyZostatok = pripisBonus(pociatocnyZostatok);
 	}
 	
+	/**
+	 * Vytvori bankovy ucet ... praca s databazou
+	 * 
+	 * @param idUctu
+	 * @param aktualnyZostatok
+	 * @param bonus
+	 */
+	public BankovyUcet(long idUctu, double aktualnyZostatok, double bonus) 
+	{
+		this.idUctu = idUctu;
+		this.aktualnyZostatok = aktualnyZostatok;
+		this.bonus = bonus;
+	}
+	
 	/* METODY ========================================================================================================*/
 	/**
 	 * Vypocita a pripise bonus k danej sume.
@@ -109,7 +123,7 @@ public class BankovyUcet
 	 * 
 	 * @param idUctu identifikator uctu, kt. ma by pouzitity ako identifikator uctu
 	 */
-	protected void setIdUctu(int idUctu)
+	protected void setIdUctu(long idUctu)
 	{
 		this.idUctu = idUctu;
 	}
